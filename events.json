@@ -12,7 +12,8 @@
     "date": "2025-03-01",
     "state": "NZ",
     "type": "Triathlon",
-    "brand": "IM"
+    "brand": "IM",
+    "logoUrl": "https://placehold.co/60x20/000000/FFFFFF?text=IM&font=montserrat"
   },
   {
     "id": "im703-nz-2025",
@@ -20,7 +21,8 @@
     "date": "2025-03-01",
     "state": "NZ",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "im-portmacquarie-full-2025",
@@ -28,7 +30,8 @@
     "date": "2025-05-04",
     "state": "NSW",
     "type": "Triathlon",
-    "brand": "IM"
+    "brand": "IM",
+    "logoUrl": "https://placehold.co/60x20/000000/FFFFFF?text=IM&font=montserrat"
   },
   {
     "id": "im703-portmacquarie-2025",
@@ -36,7 +39,8 @@
     "date": "2025-05-04",
     "state": "NSW",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "im-cairns-full-2025",
@@ -44,7 +48,8 @@
     "date": "2025-06-15",
     "state": "QLD",
     "type": "Triathlon",
-    "brand": "IM"
+    "brand": "IM",
+    "logoUrl": "https://placehold.co/60x20/000000/FFFFFF?text=IM&font=montserrat"
   },
   {
     "id": "im703-cairns-2025",
@@ -52,7 +57,8 @@
     "date": "2025-06-15",
     "state": "QLD",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "gc-mara-2025",
@@ -88,7 +94,8 @@
     "date": "2025-09-14",
     "state": "QLD",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "im703-westernsydney-2025",
@@ -96,7 +103,8 @@
     "date": "2025-09-21",
     "state": "NSW",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "perth-run-fest-2025",
@@ -132,7 +140,8 @@
     "date": "2025-11-09",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "2xu-r1-elwood-2025",
@@ -140,7 +149,8 @@
     "date": "2025-11-23",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "2XU"
+    "brand": "2XU",
+    "logoUrl": "https://placehold.co/40x20/1E3A8A/FFFFFF?text=2XU&font=lato"
   },
   {
     "id": "busso-ironman-2025",
@@ -148,7 +158,8 @@
     "date": "2025-12-07",
     "state": "WA",
     "type": "Triathlon",
-    "brand": "IM"
+    "brand": "IM",
+    "logoUrl": "https://placehold.co/60x20/000000/FFFFFF?text=IM&font=montserrat"
   },
   {
     "id": "im703-westernaustralia-2025",
@@ -156,7 +167,8 @@
     "date": "2025-12-07",
     "state": "WA",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "2xu-r2-brighton-2025",
@@ -164,7 +176,8 @@
     "date": "2025-12-07",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "2XU"
+    "brand": "2XU",
+    "logoUrl": "https://placehold.co/40x20/1E3A8A/FFFFFF?text=2XU&font=lato"
   },
   {
     "id": "2xu-r3-stkilda-2026",
@@ -172,7 +185,8 @@
     "date": "2026-01-11",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "2XU"
+    "brand": "2XU",
+    "logoUrl": "https://placehold.co/40x20/1E3A8A/FFFFFF?text=2XU&font=lato"
   },
   {
     "id": "2xu-r4-sandringham-2026",
@@ -180,7 +194,8 @@
     "date": "2026-02-08",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "2XU"
+    "brand": "2XU",
+    "logoUrl": "https://placehold.co/40x20/1E3A8A/FFFFFF?text=2XU&font=lato"
   },
   {
     "id": "hobart-run-bridge-2026",
@@ -195,7 +210,8 @@
     "date": "2026-03-07",
     "state": "NZ",
     "type": "Triathlon",
-    "brand": "IM"
+    "brand": "IM",
+    "logoUrl": "https://placehold.co/60x20/000000/FFFFFF?text=IM&font=montserrat"
   },
   {
     "id": "im703-nz-2026",
@@ -203,7 +219,8 @@
     "date": "2026-03-07",
     "state": "NZ",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "2xu-r5-elwood-2026",
@@ -211,7 +228,8 @@
     "date": "2026-03-08",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "2XU"
+    "brand": "2XU",
+    "logoUrl": "https://placehold.co/40x20/1E3A8A/FFFFFF?text=2XU&font=lato"
   },
   {
     "id": "geelong-703-2026",
@@ -219,7 +237,8 @@
     "date": "2026-03-22",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "IM703"
+    "brand": "IM703",
+    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
   },
   {
     "id": "2xu-r6-stkilda-2026",
@@ -227,7 +246,8 @@
     "date": "2026-03-22",
     "state": "VIC",
     "type": "Triathlon",
-    "brand": "2XU"
+    "brand": "2XU",
+    "logoUrl": "https://placehold.co/40x20/1E3A8A/FFFFFF?text=2XU&font=lato"
   },
   {
     "id": "qld-cycle-fest-2026",
@@ -242,7 +262,8 @@
     "date": "2026-05-03",
     "state": "NSW",
     "type": "Triathlon",
-    "brand": "IM"
+    "brand": "IM",
+    "logoUrl": "https://placehold.co/60x20/000000/FFFFFF?text=IM&font=montserrat"
   },
   {
     "id": "vic-greatocean-2026",
