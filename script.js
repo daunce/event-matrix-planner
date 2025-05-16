@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Filter Population ---
     function populateStateFilters() {
         const states = ['All', ...new Set(allEvents.map(event => event.state))].sort((a, b) => {
-            if (a === 'All') return -1; // Keep 'All' first
+            if (a === 'All') return -1;
             if (b === 'All') return 1;
-            return a.localeCompare(b); // Sort other states alphabetically
+            return a.localeCompare(b);
         });
         states.forEach(state => {
             const button = createFilterButton(state, 'state', state === activeStateFilter);
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateTypeFilters() {
         const types = ['All', ...new Set(allEvents.map(event => event.type))].sort((a, b) => {
-            if (a === 'All') return -1; // Keep 'All' first
+            if (a === 'All') return -1;
             if (b === 'All') return 1;
-            return a.localeCompare(b); // Sort other types alphabetically
+            return a.localeCompare(b);
         });
         types.forEach(type => {
             const button = createFilterButton(type, 'type', type === activeTypeFilter);
@@ -107,37 +107,40 @@ document.addEventListener('DOMContentLoaded', () => {
             noEventsMessage.classList.add('hidden');
             filteredEvents.forEach(event => {
                 const button = document.createElement('button');
-                button.className = 'event-button text-left p-3 border border-gray-300 rounded-lg hover:shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400';
+                button.className = 'event-button text-left p-3 border border-gray-300 rounded-lg hover:shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400 flex flex-col items-start'; // Added flex for better layout with logo
                 button.dataset.eventId = event.id;
 
-                // Format date as DD/MM/YYYY for display
                 const displayDate = event.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: 'numeric' });
 
-                // Add brand icon/text
-                let iconHtml = '';
-                if (event.brand) {
-                    let brandText = '';
-                    switch (event.brand) {
-                        case '2XU':
-                            brandText = '[2XU]';
-                            break;
-                        case 'IM':
-                            brandText = '[M•]'; // M-dot style for Ironman
-                            break;
-                        case 'IM703':
-                            brandText = '[70.3]';
-                            break;
-                    }
-                    if (brandText) {
-                        // Using a simple span for the icon text. For actual logos, you might use <img> or inline SVGs.
-                        iconHtml = `<span class="brand-icon mr-2 text-xs font-semibold text-indigo-600">${brandText}</span>`;
-                    }
+                let logoHtml = '';
+                if (event.logoUrl) {
+                    // Use an <img> tag for the logo.
+                    // Added Tailwind classes for basic styling: max height, inline display, margin.
+                    // The 'object-contain' class ensures the logo scales nicely within the bounds.
+                    logoHtml = `<img src="${event.logoUrl}" alt="${event.brand || 'Event'} Logo" class="max-h-5 mb-1 inline-block object-contain" onerror="this.style.display='none'">`; // Hide if image fails to load
                 }
 
-                button.innerHTML = `
-                    <span class="font-semibold block">${iconHtml}${event.name}</span>
-                    <span class="text-sm text-gray-600">${displayDate}</span>
-                `;
+                // Event name and date container
+                const eventInfoDiv = document.createElement('div');
+                const eventNameSpan = document.createElement('span');
+                eventNameSpan.className = 'font-semibold block';
+                eventNameSpan.textContent = event.name;
+
+                const eventDateSpan = document.createElement('span');
+                eventDateSpan.className = 'text-sm text-gray-600';
+                eventDateSpan.textContent = displayDate;
+
+                if (logoHtml) {
+                    // If there's a logo, prepend it to the event name span or place it above.
+                    // For this example, placing it before the name.
+                    const logoElement = document.createElement('div'); // Container for logo
+                    logoElement.innerHTML = logoHtml;
+                    button.appendChild(logoElement);
+                }
+                eventInfoDiv.appendChild(eventNameSpan);
+                eventInfoDiv.appendChild(eventDateSpan);
+                button.appendChild(eventInfoDiv);
+
 
                 if (selectedEventIds.has(event.id)) {
                     button.classList.add('selected');
@@ -160,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
             buttonElement.classList.add('selected');
         }
         updateProduceMatrixButtonState();
-        if (matrixContainer.querySelector('table')) { // If matrix is visible, update it
+        if (matrixContainer.querySelector('table')) {
             generateAndDisplayMatrix();
         }
     }
@@ -181,26 +184,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const selectedEventsFromState = Array.from(selectedEventIds)
                                            .map(id => allEvents.find(event => event.id === id))
-                                           .filter(event => event); // Ensure event exists
+                                           .filter(event => event);
 
-        // Sort selected events by their date for matrix display
         const selectedEvents = selectedEventsFromState.sort((a, b) => a.dateObj - b.dateObj);
 
         currentMatrixData = [];
-        const headerRowForCsv = ['x', ...selectedEvents.map(e => e.name)]; // For CSV
+        const headerRowForCsv = ['x', ...selectedEvents.map(e => e.name)];
         currentMatrixData.push(headerRowForCsv);
-
 
         const table = document.createElement('table');
         table.id = 'matrixTable';
         table.className = 'w-full border-collapse text-sm sm:text-base';
 
-        // Create table header
         const thead = table.createTHead();
         const headerHtmlRow = thead.insertRow();
-        // First cell is 'x' or empty
         const firstTh = document.createElement('th');
-        firstTh.textContent = 'Event'; // Or leave empty: '';
+        firstTh.textContent = 'Event';
         headerHtmlRow.appendChild(firstTh);
 
         selectedEvents.forEach(event => {
@@ -221,11 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
             headerHtmlRow.appendChild(th);
         });
 
-        // Create table body
         const tbody = table.createTBody();
         selectedEvents.forEach(event1 => {
             const row = tbody.insertRow();
-            const rowDataForCsv = [event1.name]; // For CSV
+            const rowDataForCsv = [event1.name];
 
             const thRowHeader = document.createElement('th');
             thRowHeader.scope = 'row';
@@ -255,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     rowDataForCsv.push(weeksDiff.toString());
                 }
             });
-            currentMatrixData.push(rowDataForCsv); // Add row data for CSV
+            currentMatrixData.push(rowDataForCsv);
         });
 
         matrixContainer.innerHTML = '';
@@ -274,13 +272,9 @@ document.addEventListener('DOMContentLoaded', () => {
         generateAndDisplayMatrix();
     }
 
-
     function calculateWeeksBetween(date1, date2) {
-        const diffTime = date2.getTime() - date1.getTime(); // Keep positive or negative for ordering if needed, but abs for display
+        const diffTime = date2.getTime() - date1.getTime();
         const diffDays = diffTime / (1000 * 60 * 60 * 24);
-        // Use Math.round for weeks to get the nearest whole week.
-        // Abs is used because the order in matrix (event1 vs event2) determines if it's past or future,
-        // but the matrix is symmetrical in terms of absolute difference.
         return Math.abs(Math.round(diffDays / 7));
     }
 
@@ -292,7 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMatrixData = [];
     }
 
-    // --- Event Listeners Setup ---
     function setupEventListeners() {
         produceMatrixBtn.addEventListener('click', generateAndDisplayMatrix);
 
@@ -307,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
         exportCsvBtn.addEventListener('click', exportMatrixToCsv);
     }
 
-    // --- CSV Export ---
     function exportMatrixToCsv() {
         if (currentMatrixData.length === 0) {
             showMessage('No matrix data to export.', 'warn');
@@ -330,8 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showMessage('Matrix exported to CSV.', 'success');
     }
 
-    // --- Utility Functions ---
-    function showMessage(message, type = 'info') { // type can be 'info', 'success', 'warn', 'error'
+    function showMessage(message, type = 'info') {
         messageArea.textContent = message;
         messageArea.classList.remove('hidden', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500');
 
@@ -357,6 +348,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // --- Start the application ---
     initializeApp();
 });
