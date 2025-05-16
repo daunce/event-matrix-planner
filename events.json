@@ -1,33 +1,5 @@
 [
   {
-    "id": "melb-mara-2025",
-    "name": "Melbourne Marathon",
-    "date": "2025-10-12",
-    "state": "VIC",
-    "type": "Running"
-  },
-  {
-    "id": "syd-half-2025",
-    "name": "Sydney Half Marathon",
-    "date": "2025-09-07",
-    "state": "NSW",
-    "type": "Running"
-  },
-  {
-    "id": "noosa-tri-2025",
-    "name": "Noosa Triathlon",
-    "date": "2025-11-02",
-    "state": "QLD",
-    "type": "Triathlon"
-  },
-  {
-    "id": "gc-mara-2025",
-    "name": "Gold Coast Marathon",
-    "date": "2025-07-06",
-    "state": "QLD",
-    "type": "Running"
-  },
-  {
     "id": "cbr-mara-2025",
     "name": "Canberra Marathon",
     "date": "2025-04-13",
@@ -35,45 +7,58 @@
     "type": "Running"
   },
   {
-    "id": "perth-run-fest-2025",
-    "name": "Perth Running Festival",
-    "date": "2025-10-05",
-    "state": "WA",
-    "type": "Running"
+    "id": "im-nz-full-2025",
+    "name": "Ironman New Zealand",
+    "date": "2025-03-01",
+    "state": "NZ",
+    "type": "Triathlon",
+    "brand": "IM"
   },
   {
-    "id": "adelaide-mara-2025",
-    "name": "Adelaide Marathon",
-    "date": "2025-08-24",
-    "state": "SA",
-    "type": "Running"
+    "id": "im703-nz-2025",
+    "name": "Ironman 70.3 New Zealand",
+    "date": "2025-03-01",
+    "state": "NZ",
+    "type": "Triathlon",
+    "brand": "IM703"
   },
   {
-    "id": "hobart-run-bridge-2026",
-    "name": "Hobart Run The Bridge",
-    "date": "2026-02-22",
-    "state": "TAS",
-    "type": "Running"
+    "id": "im-portmacquarie-full-2025",
+    "name": "Ironman Australia (Port Macquarie)",
+    "date": "2025-05-04",
+    "state": "NSW",
+    "type": "Triathlon",
+    "brand": "IM"
   },
   {
-    "id": "geelong-703-2026",
-    "name": "Ironman 70.3 Geelong",
-    "date": "2026-03-22",
-    "state": "VIC",
-    "type": "Triathlon"
+    "id": "im703-portmacquarie-2025",
+    "name": "Ironman 70.3 Port Macquarie",
+    "date": "2025-05-04",
+    "state": "NSW",
+    "type": "Triathlon",
+    "brand": "IM703"
   },
   {
-    "id": "busso-ironman-2025",
-    "name": "Ironman Western Australia",
-    "date": "2025-12-07",
-    "state": "WA",
-    "type": "Triathlon"
+    "id": "im-cairns-full-2025",
+    "name": "Ironman Cairns",
+    "date": "2025-06-15",
+    "state": "QLD",
+    "type": "Triathlon",
+    "brand": "IM"
   },
   {
-    "id": "vic-greatocean-2026",
-    "name": "Great Ocean Road Running Festival",
-    "date": "2026-05-17",
-    "state": "VIC",
+    "id": "im703-cairns-2025",
+    "name": "Ironman 70.3 Cairns",
+    "date": "2025-06-15",
+    "state": "QLD",
+    "type": "Triathlon",
+    "brand": "IM703"
+  },
+  {
+    "id": "gc-mara-2025",
+    "name": "Gold Coast Marathon",
+    "date": "2025-07-06",
+    "state": "QLD",
     "type": "Running"
   },
   {
@@ -84,11 +69,41 @@
     "type": "Running"
   },
   {
-    "id": "qld-cycle-fest-2026",
-    "name": "Tour de Brisbane Cycling",
-    "date": "2026-04-12",
+    "id": "adelaide-mara-2025",
+    "name": "Adelaide Marathon",
+    "date": "2025-08-24",
+    "state": "SA",
+    "type": "Running"
+  },
+  {
+    "id": "syd-half-2025",
+    "name": "Sydney Half Marathon",
+    "date": "2025-09-07",
+    "state": "NSW",
+    "type": "Running"
+  },
+  {
+    "id": "im703-sunshinecoast-2025",
+    "name": "Ironman 70.3 Sunshine Coast",
+    "date": "2025-09-14",
     "state": "QLD",
-    "type": "Cycling"
+    "type": "Triathlon",
+    "brand": "IM703"
+  },
+  {
+    "id": "im703-westernsydney-2025",
+    "name": "Ironman 70.3 Western Sydney",
+    "date": "2025-09-21",
+    "state": "NSW",
+    "type": "Triathlon",
+    "brand": "IM703"
+  },
+  {
+    "id": "perth-run-fest-2025",
+    "name": "Perth Running Festival",
+    "date": "2025-10-05",
+    "state": "WA",
+    "type": "Running"
   },
   {
     "id": "vic-aroundbay-2025",
@@ -98,73 +113,17 @@
     "type": "Cycling"
   },
   {
-    "id": "2xu-r1-elwood-2025",
-    "name": "2XU Triathlon Series: R1 Elwood",
-    "date": "2025-11-23",
+    "id": "melb-mara-2025",
+    "name": "Melbourne Marathon",
+    "date": "2025-10-12",
     "state": "VIC",
-    "type": "Triathlon"
+    "type": "Running"
   },
   {
-    "id": "2xu-r2-brighton-2025",
-    "name": "2XU Triathlon Series: R2 Brighton",
-    "date": "2025-12-07",
-    "state": "VIC",
-    "type": "Triathlon"
-  },
-  {
-    "id": "2xu-r3-stkilda-2026",
-    "name": "2XU Triathlon Series: R3 St Kilda",
-    "date": "2026-01-11",
-    "state": "VIC",
-    "type": "Triathlon"
-  },
-  {
-    "id": "2xu-r4-sandringham-2026",
-    "name": "2XU Triathlon Series: R4 Sandringham",
-    "date": "2026-02-08",
-    "state": "VIC",
-    "type": "Triathlon"
-  },
-  {
-    "id": "2xu-r5-elwood-2026",
-    "name": "2XU Triathlon Series: R5 Elwood (TBC)",
-    "date": "2026-03-08",
-    "state": "VIC",
-    "type": "Triathlon"
-  },
-  {
-    "id": "2xu-r6-stkilda-2026",
-    "name": "2XU Triathlon Series: R6 St Kilda",
-    "date": "2026-03-22",
-    "state": "VIC",
-    "type": "Triathlon"
-  },
-  {
-    "id": "im-cairns-full-2025",
-    "name": "Ironman Cairns",
-    "date": "2025-06-15",
+    "id": "noosa-tri-2025",
+    "name": "Noosa Triathlon",
+    "date": "2025-11-02",
     "state": "QLD",
-    "type": "Triathlon"
-  },
-  {
-    "id": "im703-cairns-2025",
-    "name": "Ironman 70.3 Cairns",
-    "date": "2025-06-15",
-    "state": "QLD",
-    "type": "Triathlon"
-  },
-  {
-    "id": "im703-sunshinecoast-2025",
-    "name": "Ironman 70.3 Sunshine Coast",
-    "date": "2025-09-14",
-    "state": "QLD",
-    "type": "Triathlon"
-  },
-  {
-    "id": "im703-westernsydney-2025",
-    "name": "Ironman 70.3 Western Sydney",
-    "date": "2025-09-21",
-    "state": "NSW",
     "type": "Triathlon"
   },
   {
@@ -172,62 +131,124 @@
     "name": "Ironman 70.3 Melbourne",
     "date": "2025-11-09",
     "state": "VIC",
-    "type": "Triathlon"
+    "type": "Triathlon",
+    "brand": "IM703"
+  },
+  {
+    "id": "2xu-r1-elwood-2025",
+    "name": "2XU Triathlon Series: R1 Elwood",
+    "date": "2025-11-23",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "2XU"
+  },
+  {
+    "id": "busso-ironman-2025",
+    "name": "Ironman Western Australia",
+    "date": "2025-12-07",
+    "state": "WA",
+    "type": "Triathlon",
+    "brand": "IM"
   },
   {
     "id": "im703-westernaustralia-2025",
     "name": "Ironman 70.3 Western Australia",
     "date": "2025-12-07",
     "state": "WA",
-    "type": "Triathlon"
+    "type": "Triathlon",
+    "brand": "IM703"
   },
   {
-    "id": "im-portmacquarie-full-2025",
-    "name": "Ironman Australia (Port Macquarie)",
-    "date": "2025-05-04",
-    "state": "NSW",
-    "type": "Triathlon"
+    "id": "2xu-r2-brighton-2025",
+    "name": "2XU Triathlon Series: R2 Brighton",
+    "date": "2025-12-07",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "2XU"
   },
   {
-    "id": "im703-portmacquarie-2025",
-    "name": "Ironman 70.3 Port Macquarie",
-    "date": "2025-05-04",
-    "state": "NSW",
-    "type": "Triathlon"
+    "id": "2xu-r3-stkilda-2026",
+    "name": "2XU Triathlon Series: R3 St Kilda",
+    "date": "2026-01-11",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "2XU"
   },
   {
-    "id": "im-portmacquarie-full-2026",
-    "name": "Ironman Australia (Port Macquarie)",
-    "date": "2026-05-03",
-    "state": "NSW",
-    "type": "Triathlon"
+    "id": "2xu-r4-sandringham-2026",
+    "name": "2XU Triathlon Series: R4 Sandringham",
+    "date": "2026-02-08",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "2XU"
   },
   {
-    "id": "im-nz-full-2025",
-    "name": "Ironman New Zealand",
-    "date": "2025-03-01",
-    "state": "NZ",
-    "type": "Triathlon"
-  },
-  {
-    "id": "im703-nz-2025",
-    "name": "Ironman 70.3 New Zealand",
-    "date": "2025-03-01",
-    "state": "NZ",
-    "type": "Triathlon"
+    "id": "hobart-run-bridge-2026",
+    "name": "Hobart Run The Bridge",
+    "date": "2026-02-22",
+    "state": "TAS",
+    "type": "Running"
   },
   {
     "id": "im-nz-full-2026",
     "name": "Ironman New Zealand",
     "date": "2026-03-07",
     "state": "NZ",
-    "type": "Triathlon"
+    "type": "Triathlon",
+    "brand": "IM"
   },
   {
     "id": "im703-nz-2026",
     "name": "Ironman 70.3 New Zealand",
     "date": "2026-03-07",
     "state": "NZ",
-    "type": "Triathlon"
+    "type": "Triathlon",
+    "brand": "IM703"
+  },
+  {
+    "id": "2xu-r5-elwood-2026",
+    "name": "2XU Triathlon Series: R5 Elwood (TBC)",
+    "date": "2026-03-08",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "2XU"
+  },
+  {
+    "id": "geelong-703-2026",
+    "name": "Ironman 70.3 Geelong",
+    "date": "2026-03-22",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "IM703"
+  },
+  {
+    "id": "2xu-r6-stkilda-2026",
+    "name": "2XU Triathlon Series: R6 St Kilda",
+    "date": "2026-03-22",
+    "state": "VIC",
+    "type": "Triathlon",
+    "brand": "2XU"
+  },
+  {
+    "id": "qld-cycle-fest-2026",
+    "name": "Tour de Brisbane Cycling",
+    "date": "2026-04-12",
+    "state": "QLD",
+    "type": "Cycling"
+  },
+  {
+    "id": "im-portmacquarie-full-2026",
+    "name": "Ironman Australia (Port Macquarie)",
+    "date": "2026-05-03",
+    "state": "NSW",
+    "type": "Triathlon",
+    "brand": "IM"
+  },
+  {
+    "id": "vic-greatocean-2026",
+    "name": "Great Ocean Road Running Festival",
+    "date": "2026-05-17",
+    "state": "VIC",
+    "type": "Running"
   }
 ]
