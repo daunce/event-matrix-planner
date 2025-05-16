@@ -1,0 +1,100 @@
+[
+  {
+    "id": "melb-mara-2025",
+    "name": "Melbourne Marathon",
+    "date": "2025-10-12",
+    "state": "VIC",
+    "type": "Running"
+  },
+  {
+    "id": "syd-half-2025",
+    "name": "Sydney Half Marathon",
+    "date": "2025-09-07",
+    "state": "NSW",
+    "type": "Running"
+  },
+  {
+    "id": "noosa-tri-2025",
+    "name": "Noosa Triathlon",
+    "date": "2025-11-02",
+    "state": "QLD",
+    "type": "Triathlon"
+  },
+  {
+    "id": "gc-mara-2025",
+    "name": "Gold Coast Marathon",
+    "date": "2025-07-06",
+    "state": "QLD",
+    "type": "Running"
+  },
+  {
+    "id": "cbr-mara-2025",
+    "name": "Canberra Marathon",
+    "date": "2025-04-13",
+    "state": "ACT",
+    "type": "Running"
+  },
+  {
+    "id": "perth-run-fest-2025",
+    "name": "Perth Running Festival",
+    "date": "2025-10-05",
+    "state": "WA",
+    "type": "Running"
+  },
+  {
+    "id": "adelaide-mara-2025",
+    "name": "Adelaide Marathon",
+    "date": "2025-08-24",
+    "state": "SA",
+    "type": "Running"
+  },
+  {
+    "id": "hobart-run-bridge-2026",
+    "name": "Hobart Run The Bridge",
+    "date": "2026-02-22",
+    "state": "TAS",
+    "type": "Running"
+  },
+  {
+    "id": "geelong-703-2026",
+    "name": "Ironman 70.3 Geelong",
+    "date": "2026-03-22",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "busso-ironman-2025",
+    "name": "Ironman Western Australia",
+    "date": "2025-12-07",
+    "state": "WA",
+    "type": "Triathlon"
+  },
+  {
+    "id": "vic-greatocean-2026",
+    "name": "Great Ocean Road Running Festival",
+    "date": "2026-05-17",
+    "state": "VIC",
+    "type": "Running"
+  },
+  {
+    "id": "nsw-city2surf-2025",
+    "name": "City2Surf Sydney",
+    "date": "2025-08-10",
+    "state": "NSW",
+    "type": "Running"
+  },
+  {
+    "id": "qld-cycle-fest-2026",
+    "name": "Tour de Brisbane Cycling",
+    "date": "2026-04-12",
+    "state": "QLD",
+    "type": "Cycling"
+  },
+  {
+    "id": "vic-aroundbay-2025",
+    "name": "Around the Bay - Ride for a Child in Need",
+    "date": "2025-10-05",
+    "state": "VIC",
+    "type": "Cycling"
+  }
+]
