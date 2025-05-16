@@ -1,48 +1,5 @@
 [
   {
-    "id": "cbr-mara-2025",
-    "name": "Canberra Marathon",
-    "date": "2025-04-13",
-    "state": "ACT",
-    "type": "Running"
-  },
-  {
-    "id": "im-nz-full-2025",
-    "name": "Ironman New Zealand",
-    "date": "2025-03-01",
-    "state": "NZ",
-    "type": "Triathlon",
-    "brand": "IM",
-    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=IM&font=montserrat"
-  },
-  {
-    "id": "im703-nz-2025",
-    "name": "Ironman 70.3 New Zealand",
-    "date": "2025-03-01",
-    "state": "NZ",
-    "type": "Triathlon",
-    "brand": "IM703",
-    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
-  },
-  {
-    "id": "im-portmacquarie-full-2025",
-    "name": "Ironman Australia (Port Macquarie)",
-    "date": "2025-05-04",
-    "state": "NSW",
-    "type": "Triathlon",
-    "brand": "IM",
-    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=IM&font=montserrat"
-  },
-  {
-    "id": "im703-portmacquarie-2025",
-    "name": "Ironman 70.3 Port Macquarie",
-    "date": "2025-05-04",
-    "state": "NSW",
-    "type": "Triathlon",
-    "brand": "IM703",
-    "logoUrl": "https://placehold.co/60x20/DE303D/FFFFFF?text=70.3&font=montserrat"
-  },
-  {
     "id": "im-cairns-full-2025",
     "name": "Ironman Cairns",
     "date": "2025-06-15",
