@@ -28,7 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             allEvents = await response.json();
-            allEvents.forEach(event => event.dateObj = new Date(event.date)); // Pre-parse dates
+            // Pre-parse dates and sort events by date
+            allEvents.forEach(event => event.dateObj = new Date(event.date));
+            allEvents.sort((a, b) => a.dateObj - b.dateObj); // Sort events chronologically
 
             populateStateFilters();
             populateTypeFilters();
@@ -44,7 +46,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Filter Population ---
     function populateStateFilters() {
-        const states = ['All', ...new Set(allEvents.map(event => event.state))].sort();
+        const states = ['All', ...new Set(allEvents.map(event => event.state))].sort((a, b) => {
+            if (a === 'All') return -1; // Keep 'All' first
+            if (b === 'All') return 1;
+            return a.localeCompare(b); // Sort other states alphabetically
+        });
         states.forEach(state => {
             const button = createFilterButton(state, 'state', state === activeStateFilter);
             button.addEventListener('click', () => {
@@ -52,14 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('#stateFilters .state-button').forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 renderEvents();
-                clearMatrix(); // Clear matrix when filters change
+                clearMatrix();
             });
             stateFiltersContainer.appendChild(button);
         });
     }
 
     function populateTypeFilters() {
-        const types = ['All', ...new Set(allEvents.map(event => event.type))].sort();
+        const types = ['All', ...new Set(allEvents.map(event => event.type))].sort((a, b) => {
+            if (a === 'All') return -1; // Keep 'All' first
+            if (b === 'All') return 1;
+            return a.localeCompare(b); // Sort other types alphabetically
+        });
         types.forEach(type => {
             const button = createFilterButton(type, 'type', type === activeTypeFilter);
             button.addEventListener('click', () => {
@@ -67,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('#typeFilters .filter-button').forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 renderEvents();
-                clearMatrix(); // Clear matrix when filters change
+                clearMatrix();
             });
             typeFiltersContainer.appendChild(button);
         });
@@ -99,10 +109,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 const button = document.createElement('button');
                 button.className = 'event-button text-left p-3 border border-gray-300 rounded-lg hover:shadow-md transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400';
                 button.dataset.eventId = event.id;
+
                 // Format date as DD/MM/YYYY for display
                 const displayDate = event.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+
+                // Add brand icon/text
+                let iconHtml = '';
+                if (event.brand) {
+                    let brandText = '';
+                    switch (event.brand) {
+                        case '2XU':
+                            brandText = '[2XU]';
+                            break;
+                        case 'IM':
+                            brandText = '[M•]'; // M-dot style for Ironman
+                            break;
+                        case 'IM703':
+                            brandText = '[70.3]';
+                            break;
+                    }
+                    if (brandText) {
+                        // Using a simple span for the icon text. For actual logos, you might use <img> or inline SVGs.
+                        iconHtml = `<span class="brand-icon mr-2 text-xs font-semibold text-indigo-600">${brandText}</span>`;
+                    }
+                }
+
                 button.innerHTML = `
-                    <span class="font-semibold block">${event.name}</span>
+                    <span class="font-semibold block">${iconHtml}${event.name}</span>
                     <span class="text-sm text-gray-600">${displayDate}</span>
                 `;
 
@@ -139,19 +172,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Matrix Generation and Display ---
     function generateAndDisplayMatrix() {
         if (selectedEventIds.size < 2) {
-            clearMatrix(); // Clear matrix if not enough events selected
+            clearMatrix();
             if (selectedEventIds.size > 0 && selectedEventIds.size < 2) {
                  showMessage('Please select at least two events to generate the matrix.', 'info');
             }
             return;
         }
 
-        const selectedEvents = allEvents.filter(event => selectedEventIds.has(event.id))
-                                       .sort((a, b) => a.dateObj - b.dateObj); // Sort by date for consistent order
+        const selectedEventsFromState = Array.from(selectedEventIds)
+                                           .map(id => allEvents.find(event => event.id === id))
+                                           .filter(event => event); // Ensure event exists
+
+        // Sort selected events by their date for matrix display
+        const selectedEvents = selectedEventsFromState.sort((a, b) => a.dateObj - b.dateObj);
 
         currentMatrixData = [];
-        const headerRow = ['x', ...selectedEvents.map(e => e.name)];
-        currentMatrixData.push(headerRow);
+        const headerRowForCsv = ['x', ...selectedEvents.map(e => e.name)]; // For CSV
+        currentMatrixData.push(headerRowForCsv);
+
 
         const table = document.createElement('table');
         table.id = 'matrixTable';
@@ -160,26 +198,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create table header
         const thead = table.createTHead();
         const headerHtmlRow = thead.insertRow();
-        headerRow.forEach((text, index) => {
+        // First cell is 'x' or empty
+        const firstTh = document.createElement('th');
+        firstTh.textContent = 'Event'; // Or leave empty: '';
+        headerHtmlRow.appendChild(firstTh);
+
+        selectedEvents.forEach(event => {
             const th = document.createElement('th');
-            if (index === 0) { // First cell is 'x'
-                th.textContent = text;
-            } else {
-                // Event name with a remove button
-                const eventNameSpan = document.createElement('span');
-                eventNameSpan.textContent = text;
-                const removeBtn = document.createElement('span');
-                removeBtn.textContent = 'x';
-                removeBtn.className = 'remove-event-btn';
-                removeBtn.title = `Remove ${text} from matrix`;
-                removeBtn.dataset.eventIdToRemove = selectedEvents[index-1].id; // Store ID of event to remove
-                removeBtn.onclick = (e) => {
-                    e.stopPropagation(); // Prevent click from bubbling up if th has other listeners
-                    removeEventFromMatrix(selectedEvents[index-1].id);
-                };
-                th.appendChild(eventNameSpan);
-                th.appendChild(removeBtn);
-            }
+            const eventNameSpan = document.createElement('span');
+            eventNameSpan.textContent = event.name;
+            const removeBtn = document.createElement('span');
+            removeBtn.textContent = 'x';
+            removeBtn.className = 'remove-event-btn';
+            removeBtn.title = `Remove ${event.name} from matrix`;
+            removeBtn.dataset.eventIdToRemove = event.id;
+            removeBtn.onclick = (e) => {
+                e.stopPropagation();
+                removeEventFromMatrix(event.id);
+            };
+            th.appendChild(eventNameSpan);
+            th.appendChild(removeBtn);
             headerHtmlRow.appendChild(th);
         });
 
@@ -187,12 +225,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const tbody = table.createTBody();
         selectedEvents.forEach(event1 => {
             const row = tbody.insertRow();
-            const rowData = [event1.name]; // First cell in data row is event name
+            const rowDataForCsv = [event1.name]; // For CSV
 
-            // Event name cell for the row header
             const thRowHeader = document.createElement('th');
             thRowHeader.scope = 'row';
-
             const eventNameSpan = document.createElement('span');
             eventNameSpan.textContent = event1.name;
             const removeBtn = document.createElement('span');
@@ -208,22 +244,21 @@ document.addEventListener('DOMContentLoaded', () => {
             thRowHeader.appendChild(removeBtn);
             row.appendChild(thRowHeader);
 
-
             selectedEvents.forEach(event2 => {
                 const cell = row.insertCell();
                 if (event1.id === event2.id) {
                     cell.textContent = '0';
-                    rowData.push('0');
+                    rowDataForCsv.push('0');
                 } else {
                     const weeksDiff = calculateWeeksBetween(event1.dateObj, event2.dateObj);
                     cell.textContent = weeksDiff;
-                    rowData.push(weeksDiff.toString());
+                    rowDataForCsv.push(weeksDiff.toString());
                 }
             });
-            currentMatrixData.push(rowData);
+            currentMatrixData.push(rowDataForCsv); // Add row data for CSV
         });
 
-        matrixContainer.innerHTML = ''; // Clear previous content (prompt or old table)
+        matrixContainer.innerHTML = '';
         matrixContainer.appendChild(table);
         exportSection.classList.remove('hidden');
         matrixPrompt.classList.add('hidden');
@@ -231,25 +266,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function removeEventFromMatrix(eventIdToRemove) {
         selectedEventIds.delete(eventIdToRemove);
-        // Update the visual state of the button in the event list
         const eventButton = eventsContainer.querySelector(`.event-button[data-event-id="${eventIdToRemove}"]`);
         if (eventButton) {
             eventButton.classList.remove('selected');
         }
         updateProduceMatrixButtonState();
-        generateAndDisplayMatrix(); // Regenerate matrix with the event removed
+        generateAndDisplayMatrix();
     }
 
 
     function calculateWeeksBetween(date1, date2) {
-        const diffTime = Math.abs(date2.getTime() - date1.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        return Math.round(diffDays / 7);
+        const diffTime = date2.getTime() - date1.getTime(); // Keep positive or negative for ordering if needed, but abs for display
+        const diffDays = diffTime / (1000 * 60 * 60 * 24);
+        // Use Math.round for weeks to get the nearest whole week.
+        // Abs is used because the order in matrix (event1 vs event2) determines if it's past or future,
+        // but the matrix is symmetrical in terms of absolute difference.
+        return Math.abs(Math.round(diffDays / 7));
     }
 
     function clearMatrix() {
-        matrixContainer.innerHTML = ''; // Clear the table
-        matrixContainer.appendChild(matrixPrompt); // Show the prompt again
+        matrixContainer.innerHTML = '';
+        matrixContainer.appendChild(matrixPrompt);
         matrixPrompt.classList.remove('hidden');
         exportSection.classList.add('hidden');
         currentMatrixData = [];
@@ -279,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let csvContent = "data:text/csv;charset=utf-8,";
         currentMatrixData.forEach(rowArray => {
-            let row = rowArray.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","); // Handle quotes in cell data
+            let row = rowArray.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",");
             csvContent += row + "\r\n";
         });
 
@@ -287,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
         link.setAttribute("download", "event_matrix.csv");
-        document.body.appendChild(link); // Required for Firefox
+        document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         showMessage('Matrix exported to CSV.', 'success');
@@ -317,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             messageArea.classList.add('hidden');
-        }, 3000); // Hide after 3 seconds
+        }, 3000);
     }
 
     // --- Start the application ---
