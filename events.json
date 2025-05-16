@@ -96,5 +96,138 @@
     "date": "2025-10-05",
     "state": "VIC",
     "type": "Cycling"
+  },
+  {
+    "id": "2xu-r1-elwood-2025",
+    "name": "2XU Triathlon Series: R1 Elwood",
+    "date": "2025-11-23",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "2xu-r2-brighton-2025",
+    "name": "2XU Triathlon Series: R2 Brighton",
+    "date": "2025-12-07",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "2xu-r3-stkilda-2026",
+    "name": "2XU Triathlon Series: R3 St Kilda",
+    "date": "2026-01-11",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "2xu-r4-sandringham-2026",
+    "name": "2XU Triathlon Series: R4 Sandringham",
+    "date": "2026-02-08",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "2xu-r5-elwood-2026",
+    "name": "2XU Triathlon Series: R5 Elwood (TBC)",
+    "date": "2026-03-08",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "2xu-r6-stkilda-2026",
+    "name": "2XU Triathlon Series: R6 St Kilda",
+    "date": "2026-03-22",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im-cairns-full-2025",
+    "name": "Ironman Cairns",
+    "date": "2025-06-15",
+    "state": "QLD",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-cairns-2025",
+    "name": "Ironman 70.3 Cairns",
+    "date": "2025-06-15",
+    "state": "QLD",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-sunshinecoast-2025",
+    "name": "Ironman 70.3 Sunshine Coast",
+    "date": "2025-09-14",
+    "state": "QLD",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-westernsydney-2025",
+    "name": "Ironman 70.3 Western Sydney",
+    "date": "2025-09-21",
+    "state": "NSW",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-melbourne-2025",
+    "name": "Ironman 70.3 Melbourne",
+    "date": "2025-11-09",
+    "state": "VIC",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-westernaustralia-2025",
+    "name": "Ironman 70.3 Western Australia",
+    "date": "2025-12-07",
+    "state": "WA",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im-portmacquarie-full-2025",
+    "name": "Ironman Australia (Port Macquarie)",
+    "date": "2025-05-04",
+    "state": "NSW",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-portmacquarie-2025",
+    "name": "Ironman 70.3 Port Macquarie",
+    "date": "2025-05-04",
+    "state": "NSW",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im-portmacquarie-full-2026",
+    "name": "Ironman Australia (Port Macquarie)",
+    "date": "2026-05-03",
+    "state": "NSW",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im-nz-full-2025",
+    "name": "Ironman New Zealand",
+    "date": "2025-03-01",
+    "state": "NZ",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-nz-2025",
+    "name": "Ironman 70.3 New Zealand",
+    "date": "2025-03-01",
+    "state": "NZ",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im-nz-full-2026",
+    "name": "Ironman New Zealand",
+    "date": "2026-03-07",
+    "state": "NZ",
+    "type": "Triathlon"
+  },
+  {
+    "id": "im703-nz-2026",
+    "name": "Ironman 70.3 New Zealand",
+    "date": "2026-03-07",
+    "state": "NZ",
+    "type": "Triathlon"
   }
 ]
