@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const exportSection = document.getElementById('exportSection');
     const exportCsvBtn = document.getElementById('exportCsvBtn');
     const messageArea = document.getElementById('messageArea');
+    const versionInfoDiv = document.getElementById('versionInfo');
+
 
     // Application State
     let allEvents = [];
@@ -35,11 +37,21 @@ document.addEventListener('DOMContentLoaded', () => {
             populateTypeFilters();
             renderEvents();
             setupEventListeners();
+            displayVersion(); // Display version number
         } catch (error) {
             console.error("Failed to load events:", error);
             showMessage(`Error loading events: ${error.message}`, 'error');
             noEventsMessage.textContent = "Could not load event data. Please try again later.";
             noEventsMessage.classList.remove('hidden');
+        }
+    }
+
+    function displayVersion() {
+        // Version based on current generation time: Tuesday, May 20, 2025 at 10:32 PM AEST (Melbourne)
+        // Removed (AEST) as requested
+        const versionString = "250520-2232"; 
+        if (versionInfoDiv) {
+            versionInfoDiv.textContent = `Version: ${versionString}`;
         }
     }
 
@@ -211,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!event.isToday) {
                 const eventDateSpan = document.createElement('span');
                 eventDateSpan.className = 'event-date-in-matrix';
-                // Date format DD/MM/YY
                 eventDateSpan.textContent = `(${event.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: '2-digit' })})`;
                 th.appendChild(eventDateSpan);
 
@@ -230,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const tbody = table.createTBody();
-        matrixEvents.forEach((event1, rowIndex) => { // rowIndex is the 0-based index for matrixEvents
+        matrixEvents.forEach((event1, rowIndex) => {
             const row = tbody.insertRow();
             const rowDataForCsv = [event1.name];
 
@@ -246,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!event1.isToday) {
                 const eventDateSpan = document.createElement('span');
                 eventDateSpan.className = 'event-date-in-matrix';
-                // Date format DD/MM/YY
                 eventDateSpan.textContent = `(${event1.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: '2-digit' })})`;
                 thRowHeader.appendChild(eventDateSpan);
 
@@ -263,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             row.appendChild(thRowHeader);
 
-            matrixEvents.forEach((event2, colIndex) => { // colIndex is the 0-based index for matrixEvents
-                const cell = row.insertCell(); // This td corresponds to the column event2
+            matrixEvents.forEach((event2, colIndex) => {
+                const cell = row.insertCell();
                 if (event1.id === event2.id) {
                     cell.textContent = '0';
                     rowDataForCsv.push('0');
@@ -279,28 +289,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         matrixContainer.innerHTML = '';
         matrixContainer.appendChild(table);
-        highlightSequentialCells(table, matrixEvents); // Pass the full sorted list including "Today"
+        highlightSequentialCells(table, matrixEvents);
         exportSection.classList.remove('hidden');
         matrixPrompt.classList.add('hidden');
     }
 
     function highlightSequentialCells(table, sortedMatrixEvents) {
-        // Loop through the sortedMatrixEvents to define the sequence for highlighting
-        // We want to highlight the cell (Event_i Row, Event_{i+1} Column)
         for (let i = 0; i < sortedMatrixEvents.length - 1; i++) {
-            // i is the 0-based index for the row event (Event_i)
-            // i + 1 is the 0-based index for the column event (Event_{i+1})
-
-            // The row in the tbody is 1-based, so (i + 1)
-            const tableRowIndex = i + 1;
-
-            // The column for Event_{i+1} is also 1-based for td:nth-child
-            // Since td:nth-child(1) is the first data cell (column for sortedMatrixEvents[0]),
-            // the column for sortedMatrixEvents[i+1] will be td:nth-child((i+1) + 1)
-            const tableDataCellIndex = (i + 1) + 1;
-
+            const tableRowIndex = (i + 1) + 1;
+            const tableDataCellIndex = i + 1;
             const cellToHighlight = table.querySelector(`tbody tr:nth-child(${tableRowIndex}) td:nth-child(${tableDataCellIndex})`);
-
             if (cellToHighlight) {
                 cellToHighlight.classList.add('highlight-sequential');
             }
