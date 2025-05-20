@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!event.isToday) {
                 const eventDateSpan = document.createElement('span');
                 eventDateSpan.className = 'event-date-in-matrix';
-                // UPDATED DATE FORMAT HERE: DD/MM/YY
+                // Date format DD/MM/YY
                 eventDateSpan.textContent = `(${event.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: '2-digit' })})`;
                 th.appendChild(eventDateSpan);
 
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const tbody = table.createTBody();
-        matrixEvents.forEach((event1) => {
+        matrixEvents.forEach((event1, rowIndex) => { // rowIndex is the 0-based index for matrixEvents
             const row = tbody.insertRow();
             const rowDataForCsv = [event1.name];
 
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!event1.isToday) {
                 const eventDateSpan = document.createElement('span');
                 eventDateSpan.className = 'event-date-in-matrix';
-                // UPDATED DATE FORMAT HERE: DD/MM/YY
+                // Date format DD/MM/YY
                 eventDateSpan.textContent = `(${event1.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: '2-digit' })})`;
                 thRowHeader.appendChild(eventDateSpan);
 
@@ -263,8 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             row.appendChild(thRowHeader);
 
-            matrixEvents.forEach((event2) => {
-                const cell = row.insertCell();
+            matrixEvents.forEach((event2, colIndex) => { // colIndex is the 0-based index for matrixEvents
+                const cell = row.insertCell(); // This td corresponds to the column event2
                 if (event1.id === event2.id) {
                     cell.textContent = '0';
                     rowDataForCsv.push('0');
@@ -279,42 +279,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         matrixContainer.innerHTML = '';
         matrixContainer.appendChild(table);
-        highlightSequentialCells(table, matrixEvents);
+        highlightSequentialCells(table, matrixEvents); // Pass the full sorted list including "Today"
         exportSection.classList.remove('hidden');
         matrixPrompt.classList.add('hidden');
     }
 
     function highlightSequentialCells(table, sortedMatrixEvents) {
-        // actualEvents are the user-selected races, sorted by date.
-        const actualEvents = sortedMatrixEvents.filter(event => !event.isToday);
-        
-        // Create a map of event IDs to their final index in the sortedMatrixEvents array (which includes "Today")
-        // This map is crucial for finding the correct row/column in the displayed table.
-        const eventIdToFullMatrixIndexMap = new Map();
-        sortedMatrixEvents.forEach((event, index) => {
-            eventIdToFullMatrixIndexMap.set(event.id, index);
-        });
+        // Loop through the sortedMatrixEvents to define the sequence for highlighting
+        // We want to highlight the cell (Event_i Row, Event_{i+1} Column)
+        for (let i = 0; i < sortedMatrixEvents.length - 1; i++) {
+            // i is the 0-based index for the row event (Event_i)
+            // i + 1 is the 0-based index for the column event (Event_{i+1})
 
-        // Iterate through the sequence of actual selected races
-        for (let i = 0; i < actualEvents.length - 1; i++) {
-            const currentRace = actualEvents[i];    // This is Race_i
-            const nextRace = actualEvents[i+1]; // This is Race_{i+1}
+            // The row in the tbody is 1-based, so (i + 1)
+            const tableRowIndex = i + 1;
 
-            // Get their indices in the full matrix (which includes "Today")
-            // These indices correspond to the 0-based row/column in the `matrixEvents` array
-            const rowIndexForNextRace = eventIdToFullMatrixIndexMap.get(nextRace.id);
-            const colIndexForCurrentRace = eventIdToFullMatrixIndexMap.get(currentRace.id);
+            // The column for Event_{i+1} is also 1-based for td:nth-child
+            // Since td:nth-child(1) is the first data cell (column for sortedMatrixEvents[0]),
+            // the column for sortedMatrixEvents[i+1] will be td:nth-child((i+1) + 1)
+            const tableDataCellIndex = (i + 1) + 1;
 
-            if (rowIndexForNextRace !== undefined && colIndexForCurrentRace !== undefined) {
-                // Table cell indices are 1-based for querySelector (because of the header row/column in the HTML table structure)
-                // The first `td` in a `tr` corresponds to the first data column (after the row header `th`)
-                // So, `td:nth-child(${colIndexForCurrentRace + 1})` targets the correct data cell.
-                // `tr:nth-child(${rowIndexForNextRace + 1})` targets the correct row in `tbody`.
-                const cellToHighlight = table.querySelector(`tbody tr:nth-child(${rowIndexForNextRace + 1}) td:nth-child(${colIndexForCurrentRace + 1})`);
-                
-                if (cellToHighlight) {
-                    cellToHighlight.classList.add('highlight-sequential');
-                }
+            const cellToHighlight = table.querySelector(`tbody tr:nth-child(${tableRowIndex}) td:nth-child(${tableDataCellIndex})`);
+
+            if (cellToHighlight) {
+                cellToHighlight.classList.add('highlight-sequential');
             }
         }
     }
