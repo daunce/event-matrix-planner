@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeStateFilter = 'All';
     let activeTypeFilter = 'All';
 
-    // Hardcoded current date for consistency in example, but using new Date() is preferred for live app
-    // const MOCK_CURRENT_DATE = new Date('2025-05-20T00:00:00'); // Tuesday, May 20, 2025
-
     // --- Initialization ---
     async function initializeApp() {
         try {
@@ -162,38 +159,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateProduceMatrixButtonState() {
-        // Enable if at least one event is selected (to show "Today" vs that one event)
         produceMatrixBtn.disabled = selectedEventIds.size < 1;
     }
 
     // --- Matrix Generation and Display ---
     function generateAndDisplayMatrix() {
-        // Require at least one actual event to be selected to show with "Today"
         if (selectedEventIds.size < 1) {
             clearMatrix();
             showMessage('Please select at least one race to generate the schedule.', 'info');
             return;
         }
 
-        const currentDate = new Date(); // Use actual current date
-        // const currentDate = MOCK_CURRENT_DATE; // For testing with a fixed date
-        currentDate.setHours(0, 0, 0, 0); // Normalize to start of day
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
 
         const todayEvent = {
             id: 'today',
             name: 'Today',
             dateObj: currentDate,
-            isToday: true // Custom flag
+            isToday: true
         };
 
         let selectedEventsFromState = Array.from(selectedEventIds)
             .map(id => allEvents.find(event => event.id === id))
-            .filter(event => event); // Ensure event exists
+            .filter(event => event);
 
-        // Combine "Today" with selected events, then sort
         let matrixEvents = [todayEvent, ...selectedEventsFromState].sort((a, b) => a.dateObj - b.dateObj);
 
-        currentMatrixData = []; // Reset for CSV
+        currentMatrixData = [];
         const headerRowForCsv = ['x', ...matrixEvents.map(e => e.name)];
         currentMatrixData.push(headerRowForCsv);
 
@@ -203,23 +196,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const thead = table.createTHead();
         const headerHtmlRow = thead.insertRow();
         const firstTh = document.createElement('th');
-        firstTh.textContent = 'Race'; // Or 'Date'
+        firstTh.textContent = 'Race';
         headerHtmlRow.appendChild(firstTh);
 
-        matrixEvents.forEach((event, colIndex) => {
+        matrixEvents.forEach((event) => {
             const th = document.createElement('th');
             const eventNameSpan = document.createElement('span');
             eventNameSpan.textContent = event.name;
             if (event.isToday) {
                 eventNameSpan.classList.add('today-header');
             }
-
             th.appendChild(eventNameSpan);
 
-            if (!event.isToday) { // Add date and remove button only for actual events
+            if (!event.isToday) {
                 const eventDateSpan = document.createElement('span');
                 eventDateSpan.className = 'event-date-in-matrix';
-                eventDateSpan.textContent = `(${event.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit' })})`;
+                // UPDATED DATE FORMAT HERE: DD/MM/YY
+                eventDateSpan.textContent = `(${event.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: '2-digit' })})`;
                 th.appendChild(eventDateSpan);
 
                 const removeBtn = document.createElement('span');
@@ -237,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         const tbody = table.createTBody();
-        matrixEvents.forEach((event1, rowIndex) => {
+        matrixEvents.forEach((event1) => {
             const row = tbody.insertRow();
             const rowDataForCsv = [event1.name];
 
@@ -253,7 +246,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!event1.isToday) {
                 const eventDateSpan = document.createElement('span');
                 eventDateSpan.className = 'event-date-in-matrix';
-                eventDateSpan.textContent = `(${event1.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit' })})`;
+                // UPDATED DATE FORMAT HERE: DD/MM/YY
+                eventDateSpan.textContent = `(${event1.dateObj.toLocaleDateString('en-AU', { day: '2-digit', month: '2-digit', year: '2-digit' })})`;
                 thRowHeader.appendChild(eventDateSpan);
 
                 const removeBtn = document.createElement('span');
@@ -269,11 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             row.appendChild(thRowHeader);
 
-            matrixEvents.forEach((event2, colIndex) => {
+            matrixEvents.forEach((event2) => {
                 const cell = row.insertCell();
-                cell.dataset.rowIndex = rowIndex; // For easier identification
-                cell.dataset.colIndex = colIndex;
-
                 if (event1.id === event2.id) {
                     cell.textContent = '0';
                     rowDataForCsv.push('0');
@@ -288,37 +279,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
         matrixContainer.innerHTML = '';
         matrixContainer.appendChild(table);
-        highlightSequentialCells(table, matrixEvents); // Call highlighting function
+        highlightSequentialCells(table, matrixEvents);
         exportSection.classList.remove('hidden');
         matrixPrompt.classList.add('hidden');
     }
 
     function highlightSequentialCells(table, sortedMatrixEvents) {
-        // Filter out "Today" event for sequential highlighting logic, if it exists
+        // actualEvents are the user-selected races, sorted by date.
         const actualEvents = sortedMatrixEvents.filter(event => !event.isToday);
-        const eventIdsInOrder = actualEvents.map(e => e.id);
-        const eventIdToIndexMap = new Map();
+        
+        // Create a map of event IDs to their final index in the sortedMatrixEvents array (which includes "Today")
+        // This map is crucial for finding the correct row/column in the displayed table.
+        const eventIdToFullMatrixIndexMap = new Map();
         sortedMatrixEvents.forEach((event, index) => {
-            eventIdToIndexMap.set(event.id, index);
+            eventIdToFullMatrixIndexMap.set(event.id, index);
         });
 
-
+        // Iterate through the sequence of actual selected races
         for (let i = 0; i < actualEvents.length - 1; i++) {
-            const event1Id = actualEvents[i].id;
-            const event2Id = actualEvents[i+1].id;
+            const currentRace = actualEvents[i];    // This is Race_i
+            const nextRace = actualEvents[i+1]; // This is Race_{i+1}
 
-            // Get the original indices in the full matrixEvents array (including "Today")
-            const index1 = eventIdToIndexMap.get(event1Id);
-            const index2 = eventIdToIndexMap.get(event2Id);
+            // Get their indices in the full matrix (which includes "Today")
+            // These indices correspond to the 0-based row/column in the `matrixEvents` array
+            const rowIndexForNextRace = eventIdToFullMatrixIndexMap.get(nextRace.id);
+            const colIndexForCurrentRace = eventIdToFullMatrixIndexMap.get(currentRace.id);
 
-            if (index1 !== undefined && index2 !== undefined) {
-                // Highlight cell (row index1, col index2) and (row index2, col index1)
-                // Table indices are 1-based for rows/cols in querySelector, and headers take up a slot
-                const cell1 = table.querySelector(`tbody tr:nth-child(${index1 + 1}) td:nth-child(${index2 + 1})`);
-                const cell2 = table.querySelector(`tbody tr:nth-child(${index2 + 1}) td:nth-child(${index1 + 1})`);
-
-                if (cell1) cell1.classList.add('highlight-sequential');
-                if (cell2) cell2.classList.add('highlight-sequential');
+            if (rowIndexForNextRace !== undefined && colIndexForCurrentRace !== undefined) {
+                // Table cell indices are 1-based for querySelector (because of the header row/column in the HTML table structure)
+                // The first `td` in a `tr` corresponds to the first data column (after the row header `th`)
+                // So, `td:nth-child(${colIndexForCurrentRace + 1})` targets the correct data cell.
+                // `tr:nth-child(${rowIndexForNextRace + 1})` targets the correct row in `tbody`.
+                const cellToHighlight = table.querySelector(`tbody tr:nth-child(${rowIndexForNextRace + 1}) td:nth-child(${colIndexForCurrentRace + 1})`);
+                
+                if (cellToHighlight) {
+                    cellToHighlight.classList.add('highlight-sequential');
+                }
             }
         }
     }
@@ -331,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             eventButton.classList.remove('selected');
         }
         updateProduceMatrixButtonState();
-        if (selectedEventIds.size < 1) { // If no events left, clear matrix
+        if (selectedEventIds.size < 1) {
             clearMatrix();
         } else {
             generateAndDisplayMatrix();
@@ -341,8 +337,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateWeeksBetween(date1, date2) {
         const diffTime = date2.getTime() - date1.getTime();
         const diffDays = diffTime / (1000 * 60 * 60 * 24);
-        // Use Math.round for whole numbers of weeks.
-        // Abs is important as the matrix is symmetrical for differences.
         return Math.abs(Math.round(diffDays / 7));
     }
 
