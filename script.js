@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayVersion() {
-        // Version based on current generation time: Tuesday, May 20, 2025 at 11:33 PM AEST (Melbourne)
-        const versionString = "250520-2333"; 
+        // Version based on current generation time: Tuesday, May 20, 2025 at 11:38 PM AEST (Melbourne)
+        const versionString = "250520-2338"; 
         if (versionInfoDiv) {
             versionInfoDiv.textContent = `Version: ${versionString}`;
         }
@@ -294,17 +294,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function highlightSequentialCells(table, sortedMatrixEvents) {
-        // Highlight cell (S_{i+1} Row, S_i Column)
-        // Loop needs to go up to length - 1 because we use sortedMatrixEvents[i+1]
+        // Highlight cell (S_i Row, S_{i+1} Column)
+        // This creates a diagonal above the main "0" diagonal.
         for (let i = 0; i < sortedMatrixEvents.length - 1; i++) {
-            // S_i is the column event (0-based index 'i')
-            // S_{i+1} is the row event (0-based index 'i+1')
+            // S_i is the row event (0-based index 'i')
+            // S_{i+1} is the column event (0-based index 'i+1')
 
-            // tbody tr index is 1-based. Row for S_{i+1} is (i+1) + 1.
-            const tableRowIndex = (i + 1) + 1;
+            // tbody tr index is 1-based. Row for S_i is i + 1.
+            const tableRowIndex = i + 1;
 
-            // td index within a tr is 1-based. Column for S_i is i + 1.
-            const tableDataCellIndex = i + 1;
+            // td index within a tr is 1-based. Column for S_{i+1} is (i+1) + 1.
+            const tableDataCellIndex = (i + 1) + 1;
 
             const cellToHighlight = table.querySelector(`tbody tr:nth-child(${tableRowIndex}) td:nth-child(${tableDataCellIndex})`);
 
