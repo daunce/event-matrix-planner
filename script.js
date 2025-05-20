@@ -47,9 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayVersion() {
-        // Version based on current generation time: Tuesday, May 20, 2025 at 10:32 PM AEST (Melbourne)
-        // Removed (AEST) as requested
-        const versionString = "250520-2232"; 
+        // Version based on current generation time: Tuesday, May 20, 2025 at 10:42 PM AEST (Melbourne)
+        const versionString = "250520-2242"; 
         if (versionInfoDiv) {
             versionInfoDiv.textContent = `Version: ${versionString}`;
         }
@@ -295,10 +294,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function highlightSequentialCells(table, sortedMatrixEvents) {
-        for (let i = 0; i < sortedMatrixEvents.length - 1; i++) {
-            const tableRowIndex = (i + 1) + 1;
+        // Highlight cell (S_{i+2} Row, S_i Column)
+        // Loop needs to go up to length - 2 because we use sortedMatrixEvents[i+2]
+        for (let i = 0; i < sortedMatrixEvents.length - 2; i++) {
+            // S_i is the column event (0-based index 'i')
+            // S_{i+2} is the row event (0-based index 'i+2')
+
+            // tbody tr index is 1-based. Row for S_{i+2} is (i+2) + 1.
+            const tableRowIndex = (i + 2) + 1;
+
+            // td index within a tr is 1-based. Column for S_i is i + 1.
             const tableDataCellIndex = i + 1;
+
             const cellToHighlight = table.querySelector(`tbody tr:nth-child(${tableRowIndex}) td:nth-child(${tableDataCellIndex})`);
+
             if (cellToHighlight) {
                 cellToHighlight.classList.add('highlight-sequential');
             }
