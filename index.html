@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Race Planner</title> <script src="https://cdn.tailwindcss.com"></script>
+    <title>Race Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Custom styles for selected buttons or other minor tweaks if needed */
         .event-button.selected {
             background-color: #3b82f6; /* Tailwind's blue-500 */
             color: white;
@@ -23,61 +23,84 @@
             background-color: #6366f1; /* Tailwind's indigo-500 */
             color: white;
         }
-        /* Ensure table cells have consistent padding and text alignment */
         #matrixTable th, #matrixTable td {
             padding: 0.75rem; /* p-3 */
             text-align: center;
             border: 1px solid #e5e7eb; /* Tailwind's gray-200 */
+            min-width: 80px; /* Ensure cells have some minimum width */
         }
         #matrixTable th {
             background-color: #f3f4f6; /* Tailwind's gray-100 */
+            vertical-align: top; /* Align header content to the top */
         }
         .remove-event-btn {
             cursor: pointer;
             color: #ef4444; /* Tailwind's red-500 */
             font-weight: bold;
-            margin-left: 0.5rem; /* ml-2 */
+            margin-left: 0.25rem; /* ml-1 */
+            font-size: 0.875em; /* Smaller 'x' */
         }
         .remove-event-btn:hover {
             color: #dc2626; /* Tailwind's red-600 */
+        }
+        .event-date-in-matrix {
+            display: block;
+            font-size: 0.75em; /* Smaller font for date */
+            color: #6b7280; /* Tailwind's gray-500, less obvious colour */
+            font-weight: normal;
+            margin-top: 0.25rem; /* space between name and date */
+        }
+        .highlight-sequential {
+            background-color: #d1fae5; /* Tailwind's green-100, a light green */
+            font-weight: bold;
+            color: #065f46; /* Tailwind's green-800 */
+        }
+        .today-header {
+            color: #1d4ed8; /* Tailwind's blue-700 for "Today" header */
+            font-style: italic;
         }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col items-center p-4 sm:p-6 md:p-8">
 
-    <div class="container mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-5xl">
-        <header class="mb-8 text-center">
+    <div class="container mx-auto bg-white p-6 sm:p-8 rounded-xl shadow-2xl w-full max-w-6xl"> <header class="mb-8 text-center">
             <h1 class="text-3xl sm:text-4xl font-bold text-indigo-600">Race Planner</h1>
         </header>
 
         <section id="filtersSection" class="mb-8 p-6 bg-gray-50 rounded-lg shadow">
             <div class="mb-6">
-                <h2 class="text-xl font-semibold mb-3 text-gray-700">Filter by State/Region:</h2> <div id="stateFilters" class="flex flex-wrap gap-2">
+                <h2 class="text-xl font-semibold mb-3 text-gray-700">Filter by State/Region:</h2>
+                <div id="stateFilters" class="flex flex-wrap gap-2">
                     </div>
             </div>
 
             <div>
-                <h2 class="text-xl font-semibold mb-3 text-gray-700">Filter by Race Type:</h2> <div id="typeFilters" class="flex flex-wrap gap-2">
+                <h2 class="text-xl font-semibold mb-3 text-gray-700">Filter by Race Type:</h2>
+                <div id="typeFilters" class="flex flex-wrap gap-2">
                     </div>
             </div>
         </section>
 
         <section id="eventsListSection" class="mb-8 p-6 bg-gray-50 rounded-lg shadow">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Select Races (min. 2):</h2> <div id="eventsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <p id="noEventsMessage" class="text-gray-500 col-span-full hidden">No races match the current filters.</p> </div>
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Select Races (min. 1 to include 'Today'):</h2> <div id="eventsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <p id="noEventsMessage" class="text-gray-500 col-span-full hidden">No races match the current filters.</p>
+            </div>
         </section>
 
         <section class="mb-8 flex flex-col sm:flex-row justify-center items-center gap-4">
             <button id="produceMatrixBtn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                Generate Proximity Matrix
-            </button> <button id="clearSelectionsBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out w-full sm:w-auto">
+                View Schedule
+            </button>
+            <button id="clearSelectionsBtn" class="bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-150 ease-in-out w-full sm:w-auto">
                 Clear All Selections
             </button>
         </section>
 
         <section id="matrixDisplaySection" class="mb-8 p-6 bg-gray-50 rounded-lg shadow min-h-[100px]">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Race Proximity Matrix (Weeks)</h2> <div id="matrixContainer" class="overflow-x-auto">
-                <p id="matrixPrompt" class="text-gray-500">Select at least two races and click "Generate Proximity Matrix".</p> </div>
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Race Proximity Matrix (Weeks)</h2>
+            <div id="matrixContainer" class="overflow-x-auto">
+                <p id="matrixPrompt" class="text-gray-500">Select races and click "View Schedule".</p>
+            </div>
         </section>
 
         <section id="exportSection" class="text-center hidden">
